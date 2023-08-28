@@ -17,7 +17,7 @@ jupyter: ruby
 - [RedAmber](https://github.com/red-data-tools/red_amber) というデータフレームライブラリを作っています
   - Apache Arrow の列指向のデータを扱えるライブラリ
   - Ruby らしい書き方でデータフレームの操作ができることを目指しています
-    - 以前はライブラリの紹介文は「A simple dataframe library for Ruby」でしたが、最近「A dataframe library for Rubyists」に変えました
+    - 「A dataframe library for Rubyists」
 
 - Grant では主要な機能の実装を完成し、高速化、ドキュメント整備を頑張りました
   - 成果は[最終報告書](https://gist.github.com/heronshoes/d301bfd58adfbf51e28584bf2e68c190) にまとめてあります
@@ -225,7 +225,7 @@ diamonds
   .assign { [:mean_price_jpy, mean_price_usd * usdjpy] }
 
   # 新しい列を作る assign(列のラベル) { 列の値ベクトル }
-  # .assign(:mean_price_jpy) { mean_price_usd * usdjpy } 
+  # .assign(:mean_price_jpy) { mean_price_usd * usdjpy }
 ```
 
 ## データフレームの基本操作
@@ -242,7 +242,7 @@ diamonds.slice { carat > 1 }
 # diamonds.slice { [0..10, -10..-1] }
 ```
 
-### DataFrames 操作メソッドの比較
+## DataFrames 操作メソッドの比較
 
 RedAmberの基本的な操作メソッドを [Python pandas](https://pandas.pydata.org/),
 [R Tidyverse](https://www.tidyverse.org/),
@@ -321,6 +321,8 @@ diamonds
 ```{ruby}
 diamonds
 # diamonds.table
+# diamonds.v(:table)
+# diamonds[:table]
 ```
 
 ```{ruby}
@@ -388,17 +390,6 @@ df_wide.transpose
 | wide dataframe を転置する             | transpose | transpose, t 	      | transpose, T | permutedims   |
 
 ※ (RedAmberで工夫したことその3) **良い感じに操作できるデータフレームの変形操作**
-
-## Groupの取扱い
-
-グループはデータフレームでよく登場する重要な概念。例えば売り上げのデータがあったとして、
-
-- 店舗毎の売り上げ合計を求める
-- 月毎に売り上げ合計上位３位にある商品を求める
-
-などのタスクの「毎」を取り扱うのがグループ！
-
-※ (RedAmberで工夫したことその3) **忘れていても思い出しながら使える、データフレームの変形操作を作った**
 
 ## グループ化とその周辺
 
@@ -536,7 +527,7 @@ dataframe
 
 ## 謝辞
  このプロジェクトの実施にあたっては、メンターの村田(@mrkn)さんに常に的確な助言と温かいサポートを賜りました。 須藤(@kou)さんにはRed ArrowのコミットやRedAmberの不具合に対する助言と共に、Red Data Toolsの月例配信でもお世話になりました。 Benson Muite(@bkmgit)さんにはFedraのテストワークフローの追加と、他のデータフレームとの比較表のJuliaの部分を追加して頂きました。 @kojix2さんにはYARDドキュメント生成ワークフローの追加、ドキュメントの修正などでコードに貢献して頂きました。またそれ以外でもメソッド名に対する議論などでRed Data ToolsのGitterでメンバーの方々には貴重なご意見やご提案を頂いております。皆様の支援に対しましてこの場をお借りして深く感謝申し上げます。
- 
+
 最後にこのような機会を与えてくださったRuby Assciation、Rubyを生みそして育ててくださっているまつもとさんはじめRubyコミュニティの皆様に深く感謝申し上げます。
 
 
