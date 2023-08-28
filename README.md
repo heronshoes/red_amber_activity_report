@@ -8,7 +8,9 @@
 
 ## イベントの資料
 
-このリポジトリの`doc/qmd`に発表の元ファイル（Quarto qmd形式）があります。このリポジトリはDev Container対応になっていますので、クローンしてDev COntainerとして立ち上げ、`rake jupyter`として頂くとノートブック環境でご覧いただけます。
+このリポジトリの`doc/qmd`に発表の元ファイル（Quarto qmd形式）があります。このリポジトリはDev Container対応になっていますので、クローンしてDev Containerとして立ち上げ、`rake jupyter`として頂くとノートブック環境でご覧いただけます。
+
+最も簡単な方法は、このページの「<>code」ボタンから「Codespaces」タブを選んで、「Create codespaces on main」を押して、ブラウザ上でVS Codeをリモートコンテナで動かす方法です。コンテナの構築に時間がかかりますが、立ち上がったらターミナルで`rake jupyter` でlocalhost:8888でJupyter Labが立ち上がってNotebookが動かせるようになります。Codespacesは立ち上げたあなたのGitHubアカウントのクオータを消費するので注意してください。GitHub Freeならば月60h✖️2coreまで無料です。
 
 ## 2022年度Rubyアソシエーション開発助成金成果報告
 
