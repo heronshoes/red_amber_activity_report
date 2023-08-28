@@ -6,6 +6,10 @@
 ## イベントの案内ページ
 - https://www.ruby.or.jp/ja/news/20230710_2
 
+## イベントの資料
+
+このリポジトリの`doc/qmd`に発表の元ファイル（Quarto qmd形式）があります。このリポジトリはDev Container対応になっていますので、クローンしてDev COntainerとして立ち上げ、`rake jupyter`として頂くとノートブック環境でご覧いただけます。
+
 ## 2022年度Rubyアソシエーション開発助成金成果報告
 
 - [Ruby Associationの成果報告アナウンス](https://www.ruby.or.jp/ja/news/20230808)
