@@ -3,17 +3,22 @@ title: Ruby Association Activity Report
 jupyter: ruby
 ---
 
+## Ruby Association Activity Report
 # RedAmber - A simple dataframe library for Ruby
 
-## 鈴木弘一 (@heronshoes)
+### 鈴木弘一 (@heronshoes)
 
 
 ## 今日のお話
 
-- RedAmber というデータフレームライブラリを作っています
+- この発表のサポートページがあります。
+  - https://github.com/heronshoes/red_amber_activity_report
+
+- [RedAmber](https://github.com/red-data-tools/red_amber) というデータフレームライブラリを作っています
   - Apache Arrow の列指向のデータを扱えるライブラリ
   - Ruby らしい書き方でデータフレームの操作ができることを目指しています
     - 以前はライブラリの紹介文は「A simple dataframe library for Ruby」でしたが、最近「A dataframe library for Rubyists」に変えました
+
 - Grant では主要な機能の実装を完成し、高速化、ドキュメント整備を頑張りました
   - 成果は[最終報告書](https://gist.github.com/heronshoes/d301bfd58adfbf51e28584bf2e68c190) にまとめてあります
   - RubyKaigi と その follow-up eventでもRedAmberの紹介をさせて頂きました（ありがとうございます）
@@ -24,20 +29,31 @@ jupyter: ruby
 - 鈴木弘一 (Hirokazu SUZUKI)
 - GitHub/ex-Twitter: @heronshoes
 - 広島県福山市に住んでいます
-- Ruby愛好家を自称するRubyist
+
+  ![福山市](https://www.city.fukuyama.hiroshima.jp/img/common/logo.png) [Batman](https://github.com/heronshoes/red_amber_activity_report/assets/63298319/d94af4c7-2575-4a50-9f00-d28d55e085e7)
+- Ruby愛好家というタイプのRubyist
 - Red Data Tools / Rubyでデータ処理
 - コーヒーとクラフトビールとMINIが好き 今は短歌がマイブームです
+
+よろしくお願いします。
 
 ## RedAmber を動かす
 
 ```{ruby}
 require 'red_amber'
-require 'datasets-arrow'  # red-datasets（有名なデータセットを集めたライブラリ）、を arrowと連携できるようにしたもの
+require 'datasets-arrow'  # red-datasets（有名なデータセットを集めたライブラリ）を arrowと連携できるようにしたもの
 
 { RedAmber: RedAmber::VERSION, Arrow: Arrow::VERSION, Datasets: Datasets::VERSION, Ruby: RUBY_VERSION }
 ```
 
 ## データフレームとは何か
+
+- データフレームは、列にラベルを持った二次元のデータ構造
+- Pythonのpandas、Rのdplyr/tidyr、RustのPolars、RubyでもDaruがある
+  - Ruby Association Grantでも過去にデータフレームの取り組みがあった
+- SQLのテーブルと共通する部分が多い概念
+
+![DataFrame in RedAmber](https://github.com/heronshoes/red_amber_activity_report/assets/63298319/4379918e-86ff-4bdd-b6a2-69aacbcaa365)
 
 ![dataframe model of RedAmber](https://raw.githubusercontent.com/red-data-tools/red_amber/main/doc/image/dataframe_model.png)
 
@@ -64,6 +80,10 @@ RedAmber::DataFrame.new(index: (0...n_rows).map { "row_#{_1}" })
   end
 ```
 
+![Vectorのメソッド](https://github.com/heronshoes/red_amber_activity_report/assets/63298319/e9416899-5219-4551-a059-a836dd633900)
+
+参考）[Apache ArrowとRedAmber](https://github.com/heronshoes/red_amber_activity_report/assets/63298319/22852887-2eed-4330-95bf-249c2a39c80b)
+
 ## Penguins データを読み込んでみる
 
 元データは、Rの　palmerpenguins データセット,
@@ -72,7 +92,6 @@ Red Datasetsから取得できる.
 ```{ruby}
 penguins = RedAmber::DataFrame.new(Datasets::Penguins.new)
 ```
-
 
 データフレームの要約を行と列を転置して表示させる `#tdr` メソッド
 - type : データの型 (Arrow Array の型)
@@ -114,14 +133,6 @@ penguins.summary
 penguins.summary.transpose
 ```
 
-```{ruby}
-penguins.summary.keys
-```
-
-```{ruby}
-penguins.summary.types
-```
-
 ## Diamonds データセットを読み込んで例を示す
 
 元データは、Rの　「Prices of over 50,000 round cut diamonds」,
@@ -149,6 +160,7 @@ diamonds.carat.quantiles
 
 ```{ruby}
 diamonds.carat > 1
+# (diamonds.carat > 1).tally
 ```
 
 ```{ruby}
@@ -223,11 +235,7 @@ diamonds
   - `[行 ： 列]`でアドレッシングするやり方は、列指向でベクトル演算を主体とする場合は使われにくい
   - その代わり、選択指定子はインデックスの配列でも、ブーリアン配列でもどちらでも受け付けるようにした
 
-![RedAmberの基本的なメソッド群](https://raw.githubusercontent.com/heronshoes/red_amber/main/doc/image/basic_verbs.png)
-
 ```{ruby}
-#| collapsed: true
-#| jupyter: {outputs_hidden: true}
 #| scrolled: true
 diamonds.slice { carat > 1 }
 # puts diamonds.inspect
@@ -288,8 +296,6 @@ diamonds1.slice { v('carat-value') > 1 }
 | dataframe をソートする        | sort 	              | dplyr::arrange 	                                    | sort_values       | sort          |
 
 ```{ruby}
-#| collapsed: true
-#| jupyter: {outputs_hidden: true, source_hidden: true}
 diamonds
   .pick(:depth, :z)
   .assign(:depth, :'diff(depth-z)') do
@@ -299,11 +305,13 @@ diamonds
   end
 ```
 
+![RedAmberの基本的なメソッド群](https://raw.githubusercontent.com/heronshoes/red_amber/main/doc/image/basic_verbs.png)
+
 ※ (RedAmberで工夫したことその2) **Rubyのブロックと親和性が高い、整理されたメソッド群を作った**
 
 ### よくハマってしまうミス
 
-ブロックを `instance_eval` を使ってレシーバのコンテキストでコンテキストで呼んでいるためにおこること
+ブロックを `instance_eval` を使ってレシーバのコンテキストでコンテキストで呼んでいる。そして`method_missing`で列名をメソッドとして呼べるようにしている。このため、
 
 - 列名とメソッド名が同じ
 - 列名とローカル変数が同じ
@@ -390,48 +398,145 @@ df_wide.transpose
 
 などのタスクの「毎」を取り扱うのがグループ！
 
+※ (RedAmberで工夫したことその3) **忘れていても思い出しながら使える、データフレームの変形操作を作った**
+
+## グループ化とその周辺
+
+グループ化とは、いくつかの列の値に基づいてデータフレームを**グループに分け**、それぞれの値を**集約する**操作。
+
+関連する操作に、分析関数（ウィンドウ）関数とローリングウィンドウ関数がある。分析関数とは、（私の理解では）集約しないグループ化であり、ローリングウィンドウ関数の代表的な使い方は移動平均である。
+
+![グループ化](https://user-images.githubusercontent.com/63298319/221889155-21a37b7c-ef41-4f41-a72a-a2d4da983591.png)
+
 ```{ruby}
-sales = RedAmber::DataFrame.new(
-  month: [7, 7, 7, 8, 8, 8],
-  store: %w[Tokyo Osaka Osaka Tokyo Osaka Nagoya],
-  amount: [158, 81, 95, 120, 90, 278]
+dataframe = RedAmber::DataFrame.new(
+  x: 0..5,
+  y: %w[A A B B B C],
+  z: [false, true, false, nil, true, false]
 )
 ```
 
 ```{ruby}
-sales.group(:store)
+dataframe.group(:y)
 ```
 
 ```{ruby}
-sales
-  .group(:store)
-  .sum(:amount)
+dataframe.group(:y).sum
+# dataframe.group(:y).summarize { sum(:x) }a
 ```
 
 ```{ruby}
-sales
-  .group(:store)
-  .summarize { [sum(:amount), count] }
+dataframe.x
+```
+
+![SubFramesコンセプト](https://user-images.githubusercontent.com/63298319/213947955-9e4d7a5f-0315-4a0e-bd09-484137645fca.png)
+
+Rのtidyrでは下記のように「nest」という概念を導入している。
+
+これはデータフレームの内部にデータフレームを取り込む概念といえる。RedAmberのSubFramesは、データフレームの集合セットを外部に広げていくような考え方だと思っている。
+
+![参考:Rのデータフレームにおけるnest](https://user-images.githubusercontent.com/63298319/224402474-0d02d8ca-64fc-450f-a44e-c65c727d1226.png)
+
+SubFramesの場合：
+
+![SubFrames](https://user-images.githubusercontent.com/63298319/224340732-4558b2a4-61dd-458d-a3bf-85e230a4a3dc.png)
+
+```{ruby}
+dataframe
+  .sub_by_value(:y)
 ```
 
 ```{ruby}
-sales
-  .group(:store)
-  .summarize { [sum(:amount), count] }
+dataframe
+  .sub_by_value(:y)
+  .aggregate do
+    {
+      y: y.one,
+      sum_x: x.sum,
+    }
+  end
+```
+
+![移動平均](https://user-images.githubusercontent.com/63298319/224350718-020def87-7894-418f-83d1-80ca99f60f07.png)
+
+```{ruby}
+dataframe
+  .sub_by_window(size: 3)
+  .aggregate do
+    {
+      mean_x: x.mean,
+      count_z: z.count,
+    }
+  end
+```
+
+集約しないグループをSubFramesでやる
+
+![assign](https://user-images.githubusercontent.com/63298319/224435740-ebf6af40-3aa4-4855-8c20-e957e3a321f2.png)
+
+```{ruby}
+dataframe
+  .assign do
+    {
+      x: indices(1),
+      c: x.cumsum,
+    }
+  end
 ```
 
 ```{ruby}
-subframes = sales.sub_by_value(:store)
+dataframe
+  .sub_by_value(:y)
+  .assign do
+    {
+      x: indices(1),
+      c: x.cumsum,
+    }
+  end
+  # .concatenate
 ```
 
-```{ruby}
-subframes.aggregate do
-  {
-    store: store.one,
-    sum_amount: amount.sum,
-    count: store.count,
-  }
-end
+データフレームの部分集合としてのSubFramesオブジェクトにより、サブデータフレームの処理は単体のデータフレームの処理と全く同じスタイルで書ける。
+
+実際、`SubFrames#assign` の定義は `DataFrame`に丸投げである。
+```ruby
+  class SubFrames
+    def assign(...)
+      map { |df| df.assign(...) }
+    e
+  endnd
 ```
+
+一方で、効率が損なわれていることがSubFramesの欠点。
+
+## その他、Grantで頑張ったこと
+
+- 初期の実装に比べて大幅に高速化できた
+- ドキュメント整備を頑張った（YARDドキュメントカバー率100%、exampleも豊富に）
+- テストカバー率を頑張った（100%）
+
+## まだまだこれからなこと
+
+- Arrowの改良に合わせて機能を拡充していく
+- SubFramesが遅い
+- QueryをLazyに実行する仕組み
+- Rubyデータ処理全般を盛り上げていく
+
+## 総括
+- Rubyで整備が遅れていたデータフレームの分野で、Arrowデータを直接取り扱えるライブラリを開発することができた。
+- 「Rubyらしく書けるデータフレーム処理」を、ブロックによる記述、Ruby汎用のコレクションクラスの多用などを通じて実現した。
+- データフレームの主要な機能をほぼカバーできた。
+- 操作例の豊富なドキュメントを整備した。
+- 10月4日(v0.2.2)..3月11日(v0.4.1)のコードの差は、77ファイルが変更され、14702行の追加、2637行の削除であった。（ドキュメントの寄与が大きい）
+- コードを見直し、高速化を図った。
+- テストカバー率を100%に引上げ、一定のコード品質を確保した。
+- 他のデータフレームライブラリにない、新しい「SubFrames」という概念を導入し実験的機能として実装した。シンプルかつRubyらしい一貫した書き方でグループやウィンドウの処理ができることを示した。速度の向上は今後の課題である。
+- 上流のRed Arrowに対して必要な機能を充実させるための提案を行うとともに、テーブル結合操作の改善にも貢献できた。
+- RedAmberの開発のヒントになったライブラリRoverの作者Andrew Kane氏は、RustのPolarsをベースにしたPolars-rubyを誕生させた。Polarsは高速性に特徴があるArrow Formatを読み書きできるライブラリで今後が非常に期待できる。RedAmberにもLazyFrameなどの先進的な機能を取り入れていきたい。
+
+## 謝辞
+ このプロジェクトの実施にあたっては、メンターの村田(@mrkn)さんに常に的確な助言と温かいサポートを賜りました。 須藤(@kou)さんにはRed ArrowのコミットやRedAmberの不具合に対する助言と共に、Red Data Toolsの月例配信でもお世話になりました。 Benson Muite(@bkmgit)さんにはFedraのテストワークフローの追加と、他のデータフレームとの比較表のJuliaの部分を追加して頂きました。 @kojix2さんにはYARDドキュメント生成ワークフローの追加、ドキュメントの修正などでコードに貢献して頂きました。またそれ以外でもメソッド名に対する議論などでRed Data ToolsのGitterでメンバーの方々には貴重なご意見やご提案を頂いております。皆様の支援に対しましてこの場をお借りして深く感謝申し上げます。
+ 
+最後にこのような機会を与えてくださったRuby Assciation、Rubyを生みそして育ててくださっているまつもとさんはじめRubyコミュニティの皆様に深く感謝申し上げます。
 
 
