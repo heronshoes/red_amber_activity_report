@@ -1,0 +1,5 @@
+/doc/notebook/
+/tmp/
+Gemfile.lock
+.DS_Store
+.ipynb_checkpoints

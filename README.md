@@ -1,2 +1,17 @@
-# red_amber_activity_report
-# red_amber_activity_report
+# 「Ruby Association Activity Report - RedAmber」サポートページ
+
+このページは2023年8月28日開催の　「Ruby Association Activity Report」（開発助成事業の成果報告会）の発表のうち
+鈴木 弘一の『RedAmber - A simple dataframe library for Ruby』についてのサポートページです。
+
+## イベントの案内ページ
+- https://www.ruby.or.jp/ja/news/20230710_2
+
+## 2022年度Rubyアソシエーション開発助成金成果報告
+
+- [Ruby Associationの成果報告アナウンス](https://www.ruby.or.jp/ja/news/20230808)
+- [RedAmberプロジェクト最終報告書](https://gist.github.com/heronshoes/d301bfd58adfbf51e28584bf2e68c190)
+
+## その他の関連するリソース
+
+- [RedAmber GitHub Home](https://github.com/red-data-tools/red_amber)
+- [RedAmberのRubyKaigi2023での発表](https://rubykaigi.org/2023/presentations/heronshoes.html#day3)
