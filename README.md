@@ -14,6 +14,7 @@
 
 - [Ruby Associationの成果報告アナウンス](https://www.ruby.or.jp/ja/news/20230808)
 - [RedAmberプロジェクト最終報告書](https://gist.github.com/heronshoes/d301bfd58adfbf51e28584bf2e68c190)
+  - [最終報告の中のRとpandasとの比較](https://gist.github.com/heronshoes/eb3c4dbb8ec5825eefe67a09abe5dd53#file-_appendix-2-rubygrant2022-redamber-final-report-md)
 
 ## その他の関連するリソース
 
